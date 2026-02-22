@@ -83,20 +83,6 @@ body::before {
     100% { transform: scale(.94) translate(-8px, 12px); }
 }
 
-/* ─── DECORATIVE SVG ACCENTS ─── */
-/* Static / very subtly animated botanical doodles scattered in section BGs */
-.deco {
-    position: absolute;
-    pointer-events: none;
-    opacity: .12;
-    animation: decoSway 14s ease-in-out infinite alternate;
-}
-@keyframes decoSway {
-    0%   { transform: rotate(-4deg) scale(1); }
-    50%  { transform: rotate(2deg) scale(1.04); }
-    100% { transform: rotate(-2deg) scale(.97); }
-}
-
 /* ─── LAYOUT ─── */
 main { position: relative; z-index: 1; }
 .container { max-width: 1140px; margin: 0 auto; padding: 0 36px; }
@@ -249,7 +235,6 @@ nav.scrolled {
     inset 0 1px 0 rgba(168,204,140,.08);
     display: flex; align-items: center; justify-content: center; overflow: hidden;
 }
-.miffy-fig { width: 66%; height: auto; }
 
 /* Small decorative dots orbiting — NOT animated orbit, just placed softly */
 .ring-dot {
