@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Kira Bender - crafting beautiful, accessible web experiences." />
-    <title>Kira Bender Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="src/styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Kira Bender — crafting beautiful, accessible web experiences." />
+  <title>Kira Bender — Frontend Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
 
-  <!-- Ambient soft glows -->
+  <!-- Ambient glows for below-fold atmosphere -->
   <div id="bg-glow" aria-hidden="true">
     <div class="glow glow-1"></div>
     <div class="glow glow-2"></div>
     <div class="glow glow-3"></div>
   </div>
 
-  <!-- NAV -->
+  <!-- ─── NAV ─── -->
   <nav id="nav" role="navigation" aria-label="Main navigation">
     <div class="container nav-inner">
       <a href="#hero" class="nav-logo" aria-label="Home">Kira Bender</a>
@@ -37,199 +37,300 @@
 
   <main>
 
-    <!-- ═══ HERO ═══ -->
+    <!-- ═══════════════════════════════════════
+         HERO — canvas sunset fills background
+    ════════════════════════════════════════ -->
     <section id="hero" aria-labelledby="hero-heading">
-      <!-- Faint background rings -->
-      <div class="hero-bg-ring hbr-1" aria-hidden="true"></div>
-      <div class="hero-bg-ring hbr-2" aria-hidden="true"></div>
-      <div class="hero-bg-ring hbr-3" aria-hidden="true"></div>
+
+      <!-- Full-bleed animated sunset canvas -->
+      <canvas id="sunset-canvas" aria-hidden="true"></canvas>
 
       <div class="container">
         <div class="hero-grid">
 
+          <!-- Left: text -->
           <div>
             <p class="hero-eyebrow">Frontend Software Engineer</p>
-            <h1 id="hero-heading" class="hero-name">Crafting interfaces<br><em>you can feel.</em></h1>
-            <p class="hero-desc">I like to build accessible, performant websites and applications that are as beautiful as they are functional.</p>
+            <h1 id="hero-heading" class="hero-name">
+              Crafting interfaces<br><em>you can feel.</em>
+            </h1>
+            <p class="hero-desc">
+              I like to build accessible, performant websites and applications that are as beautiful as they are functional.
+            </p>
             <div class="hero-ctas">
               <a href="#projects" class="btn-primary">View my work ↓</a>
               <a href="#contact" class="btn-ghost">Get in touch</a>
             </div>
           </div>
 
-          <div class="hero-visual" aria-hidden="true">
-            <div class="pottery-ring">
-              <div class="avatar-well">
-                <!-- Photo of me here? -->
-              </div>
-              <!-- Small static glow dots at ring -->
-              <span class="ring-dot rd-1"></span>
-              <span class="ring-dot rd-2"></span>
-              <span class="ring-dot rd-3"></span>
-              <span class="ring-dot rd-4"></span>
-            </div>
-            <span class="hero-tag ht1">// open to work ✦</span>
-            <span class="hero-tag ht2">6+ yrs ✦ coding</span>
-          </div>
-
         </div>
       </div>
     </section>
 
-    <!-- ═══ ABOUT ═══ -->
+    <!-- ═══════════════════════════════════════
+         ABOUT
+    ════════════════════════════════════════ -->
     <section id="about" aria-labelledby="about-heading">
-
       <div class="container">
         <div class="about-grid">
-          <div class="about-img-wrap reveal" aria-hidden="true">
+
+          <div class="about-img-wrap reveal">
             <div class="about-photo">🪴</div>
             <div class="ad-ring-1"></div>
             <div class="ad-ring-2"></div>
             <div class="ad-dot"></div>
           </div>
+
           <div class="about-content reveal">
             <p class="section-label">About</p>
-            <h2 id="about-heading" class="section-title">A developer who<br>cares about <em>craft.</em></h2>
+            <h2 id="about-heading" class="section-title">
+              A developer who<br>cares about <em>craft.</em>
+            </h2>
             <p>Hi! I'm Kira, a <strong>frontend software engineer</strong> with a passion for building intuitive, inclusive user experiences. I believe great software lives at the intersection of thoughtful engineering and intentional design.</p>
-            <p>I care deeply about <strong>accessibility and performance</strong>, because the best interfaces work beautifully for everyone. Away from the keyboard, you might find me exploring a new country, throwing on my pottery wheel, chugging pots of tea, or surfing at my favorite beach.</p>
+            <p>I care deeply about <strong>accessibility and performance</strong>, because the best interfaces work beautifully for everyone. Away from the keyboard, you might find me exploring a new country, devouring something savory or not-too-sweet, throwing on my pottery wheel, chugging pots of tea, or surfing at my favorite beach.</p>
+
             <div class="interests-strip" role="list" aria-label="Things I love">
               <span class="interest-chip" role="listitem"><span aria-hidden="true">🍵</span> tea</span>
               <span class="interest-chip" role="listitem"><span aria-hidden="true">🌊</span> the ocean</span>
+              <span class="interest-chip" role="listitem"><span aria-hidden="true">🍜</span> food</span>
               <span class="interest-chip" role="listitem"><span aria-hidden="true">🏺</span> pottery</span>
               <span class="interest-chip" role="listitem"><span aria-hidden="true">🐰</span> miffy (nijntje)</span>
-              <span class="interest-chip" role="listitem"><span aria-hidden="true">🏺</span> travel</span>
-              <span class="interest-chip" role="listitem"><span aria-hidden="true">🏺</span> reading</span>
-              <span class="interest-chip" role="listitem"><span aria-hidden="true">🌿</span> plants</span>
+              <span class="interest-chip" role="listitem"><span aria-hidden="true">✈️</span> travel</span>
+              <span class="interest-chip" role="listitem"><span aria-hidden="true">📖</span> reading</span>
+              <span class="interest-chip" role="listitem"><span aria-hidden="true">🌱</span> learning</span>
+              <span class="interest-chip" role="listitem"><span aria-hidden="true">🎤</span> karaoke</span>
               <span class="interest-chip" role="listitem"><span aria-hidden="true">✨</span> clean code</span>
             </div>
+
             <div class="about-facts" role="list" aria-label="Quick stats">
-              <div class="fact-item" role="listitem"><div class="fact-num">5+</div><div class="fact-label">Years experience</div></div>
-              <div class="fact-item" role="listitem"><div class="fact-num">20+</div><div class="fact-label">Projects completed</div></div>
-              <div class="fact-item" role="listitem"><div class="fact-num">100%</div><div class="fact-label">Accessibility-first</div></div>
-              <div class="fact-item" role="listitem"><div class="fact-num">∞</div><div class="fact-label">Cups of tea</div></div>
+              <div class="fact-item" role="listitem">
+                <div class="fact-num">5+</div>
+                <div class="fact-label">Years experience</div>
+              </div>
+              <div class="fact-item" role="listitem">
+                <div class="fact-num">20+</div>
+                <div class="fact-label">Projects completed</div>
+              </div>
+              <div class="fact-item" role="listitem">
+                <div class="fact-num">100%</div>
+                <div class="fact-label">Accessibility-first</div>
+              </div>
+              <div class="fact-item" role="listitem">
+                <div class="fact-num">∞</div>
+                <div class="fact-label">Cups of tea</div>
+              </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>
 
-    <!-- ═══ SKILLS ═══ -->
+    <!-- ═══════════════════════════════════════
+         SKILLS
+    ════════════════════════════════════════ -->
     <section id="skills" aria-labelledby="skills-heading">
       <div class="container">
+
         <div class="reveal">
           <p class="section-label">Skills</p>
-          <h2 id="skills-heading" class="section-title">Tools I <em>love</em><br>working with.</h2>
+          <h2 id="skills-heading" class="section-title">
+            Tools I <em>love</em><br>working with.
+          </h2>
           <p class="section-sub">A toolkit built over the years — always growing, always learning.</p>
         </div>
+
         <div class="skills-grid" role="list">
           <article class="skill-card reveal" role="listitem">
             <div class="skill-icon" aria-hidden="true">⚛️</div>
             <h3 class="skill-category">Frontend Frameworks</h3>
-            <div class="skill-tags"><span class="skill-tag">React</span><span class="skill-tag">TypeScript</span><span class="skill-tag">JavaScript</span><span class="skill-tag">Next.js</span></div>
+            <div class="skill-tags">
+              <span class="skill-tag">React</span>
+              <span class="skill-tag">TypeScript</span>
+              <span class="skill-tag">JavaScript</span>
+              <span class="skill-tag">Next.js</span>
+            </div>
           </article>
           <article class="skill-card reveal" role="listitem">
             <div class="skill-icon" aria-hidden="true">🎨</div>
             <h3 class="skill-category">Styling & Design</h3>
-            <div class="skill-tags"><span class="skill-tag">CSS</span><span class="skill-tag">HTML5</span><span class="skill-tag">SCSS</span><span class="skill-tag">Tailwind</span><span class="skill-tag">Figma</span></div>
+            <div class="skill-tags">
+              <span class="skill-tag">CSS</span>
+              <span class="skill-tag">HTML5</span>
+              <span class="skill-tag">SCSS</span>
+              <span class="skill-tag">Tailwind</span>
+              <span class="skill-tag">Figma</span>
+            </div>
           </article>
           <article class="skill-card reveal" role="listitem">
             <div class="skill-icon" aria-hidden="true">🔗</div>
             <h3 class="skill-category">Data & APIs</h3>
-            <div class="skill-tags"><span class="skill-tag">GraphQL</span><span class="skill-tag">REST APIs</span><span class="skill-tag">Apollo</span><span class="skill-tag">Fetch</span></div>
+            <div class="skill-tags">
+              <span class="skill-tag">GraphQL</span>
+              <span class="skill-tag">REST APIs</span>
+              <span class="skill-tag">Apollo</span>
+              <span class="skill-tag">Fetch</span>
+            </div>
           </article>
           <article class="skill-card reveal" role="listitem">
             <div class="skill-icon" aria-hidden="true">♿</div>
             <h3 class="skill-category">Quality & A11y</h3>
-            <div class="skill-tags"><span class="skill-tag">WCAG 2.1</span><span class="skill-tag">Semantic HTML</span><span class="skill-tag">Jest</span><span class="skill-tag">Testing Library</span></div>
+            <div class="skill-tags">
+              <span class="skill-tag">WCAG 2.1</span>
+              <span class="skill-tag">Semantic HTML</span>
+              <span class="skill-tag">Jest</span>
+              <span class="skill-tag">Testing Library</span>
+            </div>
           </article>
           <article class="skill-card reveal" role="listitem">
             <div class="skill-icon" aria-hidden="true">🚀</div>
             <h3 class="skill-category">Tooling & Perf</h3>
-            <div class="skill-tags"><span class="skill-tag">Vite</span><span class="skill-tag">Webpack</span><span class="skill-tag">Git</span><span class="skill-tag">GitHub Pages</span><span class="skill-tag">CI/CD</span></div>
+            <div class="skill-tags">
+              <span class="skill-tag">Vite</span>
+              <span class="skill-tag">Webpack</span>
+              <span class="skill-tag">Git</span>
+              <span class="skill-tag">GitHub Pages</span>
+              <span class="skill-tag">CI/CD</span>
+            </div>
           </article>
           <article class="skill-card reveal" role="listitem">
             <div class="skill-icon" aria-hidden="true">🌱</div>
             <h3 class="skill-category">Always Learning</h3>
-            <div class="skill-tags"><span class="skill-tag">Web Animations</span><span class="skill-tag">CSS Houdini</span><span class="skill-tag">Web Components</span></div>
+            <div class="skill-tags">
+              <span class="skill-tag">Web Animations</span>
+              <span class="skill-tag">CSS Houdini</span>
+              <span class="skill-tag">Web Components</span>
+            </div>
           </article>
         </div>
+
       </div>
     </section>
 
-    <!-- ═══ PROJECTS ═══ -->
+    <!-- ═══════════════════════════════════════
+         PROJECTS
+    ════════════════════════════════════════ -->
     <section id="projects" aria-labelledby="projects-heading">
       <div class="container">
+
         <div class="reveal">
           <p class="section-label">Projects</p>
-          <h2 id="projects-heading" class="section-title">Things I've <em>built</em><br>with love.</h2>
+          <h2 id="projects-heading" class="section-title">
+            Things I've <em>built</em><br>with love.
+          </h2>
           <p class="section-sub">A selection of my recent work — personal, professional, and everything in between.</p>
         </div>
+
         <div class="projects-grid">
+
           <article class="project-card reveal">
-            <div class="project-thumb" style="background: linear-gradient(135deg, #1a3020, #253c28);">
+            <div class="project-thumb" style="background: linear-gradient(135deg, #182e20, #24402c);">
               <span style="position:relative;z-index:1;">🌿</span>
             </div>
             <div class="project-body">
               <h3 class="project-name">Project Evergreen</h3>
               <p class="project-desc">A React dashboard for tracking garden data — charts, reminders, and a delightful UI focused on responsive layouts and data visualization.</p>
-              <div class="project-stack"><span class="project-tech">React</span><span class="project-tech">TypeScript</span><span class="project-tech">GraphQL</span><span class="project-tech">CSS Modules</span></div>
+              <div class="project-stack">
+                <span class="project-tech">React</span>
+                <span class="project-tech">TypeScript</span>
+                <span class="project-tech">GraphQL</span>
+                <span class="project-tech">CSS Modules</span>
+              </div>
               <div class="project-links">
-                <a href="#" class="project-link" aria-label="Live demo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>Live demo</a>
-                <a href="#" class="project-link" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>GitHub</a>
+                <a href="#" class="project-link" aria-label="Live demo of Project Evergreen">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+                  Live demo
+                </a>
+                <a href="#" class="project-link" aria-label="GitHub for Project Evergreen">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                  GitHub
+                </a>
               </div>
             </div>
           </article>
+
           <article class="project-card reveal">
-            <div class="project-thumb" style="background: linear-gradient(135deg, #261830, #32203c);">
-              <span style="position:relative;z-index:1;">🌸</span>
+            <div class="project-thumb" style="background: linear-gradient(135deg, #0e2040, #163050);">
+              <span style="position:relative;z-index:1;">🌊</span>
             </div>
             <div class="project-body">
               <h3 class="project-name">Tide</h3>
               <p class="project-desc">An accessible component library for design systems. WCAG-compliant, keyboard-navigable, with composable APIs that feel natural to use.</p>
-              <div class="project-stack"><span class="project-tech">React</span><span class="project-tech">TypeScript</span><span class="project-tech">Storybook</span><span class="project-tech">Jest</span></div>
+              <div class="project-stack">
+                <span class="project-tech">React</span>
+                <span class="project-tech">TypeScript</span>
+                <span class="project-tech">Storybook</span>
+                <span class="project-tech">Jest</span>
+              </div>
               <div class="project-links">
-                <a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>Live demo</a>
-                <a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>GitHub</a>
+                <a href="#" class="project-link">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+                  Live demo
+                </a>
+                <a href="#" class="project-link">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                  GitHub
+                </a>
               </div>
             </div>
           </article>
+
           <article class="project-card reveal">
-            <div class="project-thumb" style="background: linear-gradient(135deg, #2a2010, #3a2c14);">
+            <div class="project-thumb" style="background: linear-gradient(135deg, #2c1a0c, #3e2612);">
               <span style="position:relative;z-index:1;">🏺</span>
             </div>
             <div class="project-body">
               <h3 class="project-name">Flow State</h3>
               <p class="project-desc">A minimalist productivity app in vanilla JS. Zero dependencies, full PWA support, offline-first. Lighthouse score: 100.</p>
-              <div class="project-stack"><span class="project-tech">JavaScript</span><span class="project-tech">CSS</span><span class="project-tech">HTML</span><span class="project-tech">PWA</span></div>
+              <div class="project-stack">
+                <span class="project-tech">JavaScript</span>
+                <span class="project-tech">CSS</span>
+                <span class="project-tech">HTML</span>
+                <span class="project-tech">PWA</span>
+              </div>
               <div class="project-links">
-                <a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>Live demo</a>
-                <a href="#" class="project-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>GitHub</a>
+                <a href="#" class="project-link">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+                  Live demo
+                </a>
+                <a href="#" class="project-link">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                  GitHub
+                </a>
               </div>
             </div>
           </article>
+
         </div>
       </div>
     </section>
 
-    <!-- ═══ CONTACT ═══ -->
+    <!-- ═══════════════════════════════════════
+         CONTACT
+    ════════════════════════════════════════ -->
     <section id="contact" aria-labelledby="contact-heading">
-
       <div class="container">
+
         <div class="reveal">
           <p class="section-label">Contact</p>
-          <h2 id="contact-heading" class="section-title">Let's build something<br><em>beautiful</em> together!</h2>
+          <h2 id="contact-heading" class="section-title">
+            Let's build something<br><em>beautiful</em> together!
+          </h2>
         </div>
 
         <div class="contact-layout">
 
-          <!-- Left: intro + availability -->
+          <!-- Left: intro + availability card -->
           <div class="contact-left reveal">
             <p>Whether you have a project in mind, want to collaborate, or just want to say hi — I'd love to hear from you! My inbox is always open ✨</p>
             <div class="avail-card">
-              <p class="avail-header"><span class="pulse-dot" aria-hidden="true"></span>Available for work</p>
+              <p class="avail-header">
+                <span class="pulse-dot" aria-hidden="true"></span>
+                Available for work
+              </p>
               <h3>Currently open to new opportunities.</h3>
               <p>Looking for frontend and fullstack roles where I can build cool products with a team that cares about people. Currently based in the San Francisco Bay Area — open to remote and hybrid throughout California.</p>
-              <a href="src/assets/Kira_Bender_Resume.pdf" download class="btn-cv" style="width: fit-content;" aria-label="Download CV as PDF">
+              <a href="src/assets/Kira_Bender_Resume.pdf" download class="btn-cv" style="width:fit-content;" aria-label="Download CV as PDF">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="width:13px;height:13px;">
                   <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
                 </svg>
@@ -238,7 +339,7 @@
             </div>
           </div>
 
-          <!-- Right: contact links — all in static document flow -->
+          <!-- Right: contact links in normal document flow -->
           <nav class="contact-panel reveal" aria-label="Contact links">
             <div class="contact-panel-header">
               <h3>Reach out</h3>
@@ -287,7 +388,7 @@
 
   </main>
 
-  <!-- FOOTER -->
+  <!-- ─── FOOTER ─── -->
   <footer role="contentinfo">
     <div class="container footer-inner">
       <p class="footer-logo">Kira Bender</p>
@@ -296,7 +397,6 @@
     </div>
   </footer>
 
-    <script src="src/script.js"></script>
-
+  <script src="src/script.js"></script>
 </body>
 </html>
