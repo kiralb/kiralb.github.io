@@ -3,335 +3,496 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Kira Bender — crafting beautiful, accessible web experiences." />
+  <meta name="description" content="Kira Bender — Frontend Software Engineer based in the San Francisco Bay Area. I build accessible, beautiful, high-performance web experiences." />
   <title>Kira Bender — Frontend Engineer</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
 
-  <!-- Ambient glows for below-fold atmosphere -->
+  <!-- ── SKIP LINK (keyboard/screen reader) ── -->
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!-- ══════════════════════════════════════════
+       PAGE LOADER — wave crash + rising sun
+  ══════════════════════════════════════════ -->
+  <div id="page-loader" role="status" aria-label="Page loading">
+    <div class="loader-sun-wrap" aria-hidden="true">
+      <div class="loader-sun"></div>
+    </div>
+    <p class="loader-tagline">setting sail…</p>
+    <div class="loader-waves" aria-hidden="true">
+      <!-- Back wave -->
+      <svg class="lw-back" viewBox="0 0 1440 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,100 C180,50 360,140 540,80 C720,20 900,110 1080,65 C1260,20 1360,90 1440,60 L1440,160 L0,160Z"/>
+      </svg>
+      <!-- Mid wave -->
+      <svg class="lw-mid" viewBox="0 0 1440 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,115 C200,65 400,145 620,85 C840,25 1020,120 1220,72 C1330,48 1400,100 1440,80 L1440,160 L0,160Z"/>
+      </svg>
+      <!-- Front wave (crash) -->
+      <svg class="lw-front" viewBox="0 0 1440 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,125 C220,78 460,148 700,92 C940,36 1100,130 1300,82 C1380,58 1420,108 1440,95 L1440,160 L0,160Z"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ── AMBIENT GLOWS ── -->
   <div id="bg-glow" aria-hidden="true">
     <div class="glow glow-1"></div>
     <div class="glow glow-2"></div>
     <div class="glow glow-3"></div>
   </div>
 
-  <!-- ─── NAV ─── -->
-  <nav id="nav" role="navigation" aria-label="Main navigation">
+  <!-- ══════════════════════════════════════════
+       NAVIGATION
+  ══════════════════════════════════════════ -->
+  <nav id="nav" aria-label="Main navigation">
     <div class="container nav-inner">
-      <a href="#hero" class="nav-logo" aria-label="Home">Kira Bender</a>
-      <ul class="nav-links" id="nav-links" role="list">
-        <li><a href="#about">About</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
+      <a href="#hero" class="nav-logo" aria-label="Kira Bender — back to top">Kira Bender</a>
+      <ul class="nav-list" id="nav-list" role="list">
+        <li><a href="#about"      aria-current="false">About</a></li>
+        <li><a href="#expertise"  aria-current="false">Expertise</a></li>
+        <li><a href="#experience" aria-current="false">Experience</a></li>
+        <li><a href="#contact"    aria-current="false">Contact</a></li>
       </ul>
-      <button class="nav-menu-btn" id="menu-btn" aria-label="Toggle menu" aria-expanded="false">
+      <a href="#contact" class="nav-cta" aria-label="Contact Kira">Get in touch</a>
+      <button
+        class="nav-menu-btn"
+        id="menu-btn"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="nav-list"
+      >
         <span></span><span></span><span></span>
       </button>
     </div>
   </nav>
 
-  <main>
+  <!-- ══════════════════════════════════════════
+       MAIN CONTENT
+  ══════════════════════════════════════════ -->
+  <main id="main" tabindex="-1">
 
-    <!-- ═══════════════════════════════════════
-         HERO — canvas sunset fills background
-    ════════════════════════════════════════ -->
+    <!-- ──────────────────────────────────────
+         HERO — centered, full-bleed sunset canvas
+    ─────────────────────────────────────── -->
     <section id="hero" aria-labelledby="hero-heading">
-
-      <!-- Full-bleed animated sunset canvas -->
+      <!-- Animated canvas -->
       <canvas id="sunset-canvas" aria-hidden="true"></canvas>
+      <!-- Legibility layers -->
+      <div class="hero-vignette"     aria-hidden="true"></div>
+      <div class="hero-text-shield"  aria-hidden="true"></div>
 
       <div class="container">
-        <div class="hero-grid">
-
-          <!-- Left: text -->
-          <div>
-            <p class="hero-eyebrow">Frontend Software Engineer</p>
-            <h1 id="hero-heading" class="hero-name">
-              Crafting interfaces<br><em>you can feel.</em>
-            </h1>
-            <p class="hero-desc">
-              I like to build accessible, performant websites and applications that are as beautiful as they are functional.
-            </p>
-            <div class="hero-ctas">
-              <a href="#projects" class="btn-primary">View my work ↓</a>
-              <a href="#contact" class="btn-ghost">Get in touch</a>
-            </div>
+        <div class="hero-content">
+          <p class="hero-eyebrow" aria-hidden="true">Frontend Software Engineer</p>
+          <h1 id="hero-heading" class="hero-name">
+            Crafting interfaces<br><em>you can feel.</em>
+          </h1>
+          <p class="hero-desc">
+            I build accessible, performant websites and applications
+            that are as beautiful as they are functional.
+          </p>
+          <div class="hero-ctas" role="group" aria-label="Primary actions">
+            <a href="#experience" class="btn btn-coral">View my work ↓</a>
+            <a href="#contact"    class="btn btn-ocean">Get in touch</a>
           </div>
-
         </div>
+      </div>
+
+      <div class="hero-scroll" aria-hidden="true">
+        <span>scroll</span>
+        <span class="hero-scroll-bar"></span>
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════
+
+    <!-- ──────────────────────────────────────
          ABOUT
-    ════════════════════════════════════════ -->
-    <section id="about" aria-labelledby="about-heading">
+    ─────────────────────────────────────── -->
+    <section id="about" aria-labelledby="about-heading" tabindex="-1">
       <div class="container">
         <div class="about-grid">
 
-          <div class="about-img-wrap reveal">
-            <div class="about-photo">🪴</div>
-            <div class="ad-ring-1"></div>
-            <div class="ad-ring-2"></div>
-            <div class="ad-dot"></div>
+          <!-- Photo placeholder — swap for <img> when ready -->
+          <div class="about-photo-wrap reveal" aria-hidden="true">
+            <div
+              class="about-photo"
+              role="img"
+              aria-label="Photo placeholder — Kira Bender"
+            >🪴</div>
+            <div class="ap-ring-1"></div>
+            <div class="ap-ring-2"></div>
+            <div class="ap-dot"></div>
           </div>
 
-          <div class="about-content reveal">
-            <p class="section-label">About</p>
-            <h2 id="about-heading" class="section-title">
+          <div class="about-body">
+            <p class="section-kicker" aria-hidden="true">About me</p>
+            <h2 id="about-heading" class="section-title reveal">
               A developer who<br>cares about <em>craft.</em>
             </h2>
-            <p>Hi! I'm Kira, a <strong>frontend software engineer</strong> with a passion for building intuitive, inclusive user experiences. I believe great software lives at the intersection of thoughtful engineering and intentional design.</p>
-            <p>I care deeply about <strong>accessibility and performance</strong>, because the best interfaces work beautifully for everyone. Away from the keyboard, you might find me exploring a new country, devouring something savory or not-too-sweet, throwing on my pottery wheel, chugging pots of tea, or surfing at my favorite beach.</p>
 
-            <div class="interests-strip" role="list" aria-label="Things I love">
-              <span class="interest-chip" role="listitem"><span aria-hidden="true">🍵</span> tea</span>
-              <span class="interest-chip" role="listitem"><span aria-hidden="true">🌊</span> the ocean</span>
-              <span class="interest-chip" role="listitem"><span aria-hidden="true">🍜</span> food</span>
-              <span class="interest-chip" role="listitem"><span aria-hidden="true">🏺</span> pottery</span>
-              <span class="interest-chip" role="listitem"><span aria-hidden="true">🐰</span> miffy (nijntje)</span>
-              <span class="interest-chip" role="listitem"><span aria-hidden="true">✈️</span> travel</span>
-              <span class="interest-chip" role="listitem"><span aria-hidden="true">📖</span> reading</span>
-              <span class="interest-chip" role="listitem"><span aria-hidden="true">🌱</span> learning</span>
-              <span class="interest-chip" role="listitem"><span aria-hidden="true">🎤</span> karaoke</span>
-              <span class="interest-chip" role="listitem"><span aria-hidden="true">✨</span> clean code</span>
-            </div>
+            <p class="reveal">
+              Hi! I'm Kira, a <strong>frontend software engineer</strong> with a passion
+              for building intuitive, inclusive user experiences. I believe great software
+              lives at the intersection of thoughtful engineering and intentional design.
+            </p>
+            <p class="reveal">
+              I care deeply about <strong>accessibility and performance</strong>, because
+              the best interfaces work beautifully for everyone. Away from the keyboard,
+              you might find me exploring a new country, devouring something savory or
+              not-too-sweet, throwing on my pottery wheel, chugging pots of tea, or
+              surfing at my favorite beach.
+            </p>
 
-            <div class="about-facts" role="list" aria-label="Quick stats">
-              <div class="fact-item" role="listitem">
-                <div class="fact-num">5+</div>
-                <div class="fact-label">Years experience</div>
+            <ul class="interests reveal" aria-label="Personal interests">
+              <li class="chip">🍵 tea</li>
+              <li class="chip">🌊 the ocean</li>
+              <li class="chip">🍜 food</li>
+              <li class="chip">🏺 pottery</li>
+              <li class="chip">🐰 miffy (nijntje)</li>
+              <li class="chip">✈️ travel</li>
+              <li class="chip">📖 reading</li>
+              <li class="chip">🌱 learning</li>
+              <li class="chip">🎤 karaoke</li>
+              <li class="chip">✨ clean code</li>
+            </ul>
+
+            <dl class="about-stats reveal" aria-label="Career highlights">
+              <div class="stat">
+                <dt class="stat-label">Years experience</dt>
+                <dd class="stat-num">5+</dd>
               </div>
-              <div class="fact-item" role="listitem">
-                <div class="fact-num">20+</div>
-                <div class="fact-label">Projects completed</div>
+              <div class="stat">
+                <dt class="stat-label">Projects completed</dt>
+                <dd class="stat-num">20+</dd>
               </div>
-              <div class="fact-item" role="listitem">
-                <div class="fact-num">100%</div>
-                <div class="fact-label">Accessibility-first</div>
+              <div class="stat">
+                <dt class="stat-label">Accessibility-first</dt>
+                <dd class="stat-num">100%</dd>
               </div>
-              <div class="fact-item" role="listitem">
-                <div class="fact-num">∞</div>
-                <div class="fact-label">Cups of tea</div>
+              <div class="stat">
+                <dt class="stat-label">Cups of tea</dt>
+                <dd class="stat-num">∞</dd>
               </div>
-            </div>
+            </dl>
           </div>
 
         </div>
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════
-         SKILLS
-    ════════════════════════════════════════ -->
-    <section id="skills" aria-labelledby="skills-heading">
+
+    <!-- ──────────────────────────────────────
+         EXPERTISE (upgraded skills section)
+    ─────────────────────────────────────── -->
+    <section id="expertise" aria-labelledby="expertise-heading" tabindex="-1">
       <div class="container">
 
-        <div class="reveal">
-          <p class="section-label">Skills</p>
-          <h2 id="skills-heading" class="section-title">
-            Tools I <em>love</em><br>working with.
-          </h2>
-          <p class="section-sub">A toolkit built over the years — always growing, always learning.</p>
+        <div class="expertise-head">
+          <div>
+            <p class="section-kicker reveal" aria-hidden="true">Expertise</p>
+            <h2 id="expertise-heading" class="section-title reveal">
+              Tools I <em>love</em><br>working with.
+            </h2>
+          </div>
+          <p class="section-lead reveal">
+            A toolkit built over years of shipping production software — from
+            pixel-perfect UIs to accessible component systems and everything in between.
+          </p>
         </div>
 
-        <div class="skills-grid" role="list">
-          <article class="skill-card reveal" role="listitem">
-            <div class="skill-icon" aria-hidden="true">⚛️</div>
-            <h3 class="skill-category">Frontend Frameworks</h3>
-            <div class="skill-tags">
-              <span class="skill-tag">React</span>
-              <span class="skill-tag">TypeScript</span>
-              <span class="skill-tag">JavaScript</span>
-              <span class="skill-tag">Next.js</span>
-            </div>
-          </article>
-          <article class="skill-card reveal" role="listitem">
-            <div class="skill-icon" aria-hidden="true">🎨</div>
-            <h3 class="skill-category">Styling & Design</h3>
-            <div class="skill-tags">
-              <span class="skill-tag">CSS</span>
-              <span class="skill-tag">HTML5</span>
-              <span class="skill-tag">SCSS</span>
-              <span class="skill-tag">Tailwind</span>
-              <span class="skill-tag">Figma</span>
-            </div>
-          </article>
-          <article class="skill-card reveal" role="listitem">
-            <div class="skill-icon" aria-hidden="true">🔗</div>
-            <h3 class="skill-category">Data & APIs</h3>
-            <div class="skill-tags">
-              <span class="skill-tag">GraphQL</span>
-              <span class="skill-tag">REST APIs</span>
-              <span class="skill-tag">Apollo</span>
-              <span class="skill-tag">Fetch</span>
-            </div>
-          </article>
-          <article class="skill-card reveal" role="listitem">
-            <div class="skill-icon" aria-hidden="true">♿</div>
-            <h3 class="skill-category">Quality & A11y</h3>
-            <div class="skill-tags">
-              <span class="skill-tag">WCAG 2.1</span>
-              <span class="skill-tag">Semantic HTML</span>
-              <span class="skill-tag">Jest</span>
-              <span class="skill-tag">Testing Library</span>
-            </div>
-          </article>
-          <article class="skill-card reveal" role="listitem">
-            <div class="skill-icon" aria-hidden="true">🚀</div>
-            <h3 class="skill-category">Tooling & Perf</h3>
-            <div class="skill-tags">
-              <span class="skill-tag">Vite</span>
-              <span class="skill-tag">Webpack</span>
-              <span class="skill-tag">Git</span>
-              <span class="skill-tag">GitHub Pages</span>
-              <span class="skill-tag">CI/CD</span>
-            </div>
-          </article>
-          <article class="skill-card reveal" role="listitem">
-            <div class="skill-icon" aria-hidden="true">🌱</div>
-            <h3 class="skill-category">Always Learning</h3>
-            <div class="skill-tags">
-              <span class="skill-tag">Web Animations</span>
-              <span class="skill-tag">CSS Houdini</span>
-              <span class="skill-tag">Web Components</span>
-            </div>
-          </article>
-        </div>
+        <ul class="expertise-grid" aria-label="Areas of expertise">
 
+          <li class="ex-card reveal">
+            <div class="ex-icon" aria-hidden="true">⚛️</div>
+            <h3 class="ex-title">Frontend Frameworks</h3>
+            <p class="ex-desc">
+              Building fast, reactive interfaces with a focus on clean component
+              architecture and strong developer ergonomics.
+            </p>
+            <ul class="ex-tags" aria-label="React, TypeScript, JavaScript, Next.js">
+              <li class="ex-tag">React</li>
+              <li class="ex-tag">TypeScript</li>
+              <li class="ex-tag">JavaScript</li>
+              <li class="ex-tag">Next.js</li>
+            </ul>
+          </li>
+
+          <li class="ex-card reveal">
+            <div class="ex-icon" aria-hidden="true">🎨</div>
+            <h3 class="ex-title">Styling & Design</h3>
+            <p class="ex-desc">
+              Translating design systems into pixel-perfect, responsive, and
+              maintainable CSS — from scratch or straight from Figma.
+            </p>
+            <ul class="ex-tags" aria-label="CSS, HTML5, SCSS, Tailwind, Figma">
+              <li class="ex-tag">CSS</li>
+              <li class="ex-tag">HTML5</li>
+              <li class="ex-tag">SCSS</li>
+              <li class="ex-tag">Tailwind</li>
+              <li class="ex-tag">Figma</li>
+            </ul>
+          </li>
+
+          <li class="ex-card reveal">
+            <div class="ex-icon" aria-hidden="true">🔗</div>
+            <h3 class="ex-title">Data & APIs</h3>
+            <p class="ex-desc">
+              Integrating complex data layers with smooth, optimistic UI
+              patterns that feel instant to every user.
+            </p>
+            <ul class="ex-tags" aria-label="GraphQL, REST APIs, Apollo, Fetch">
+              <li class="ex-tag">GraphQL</li>
+              <li class="ex-tag">REST APIs</li>
+              <li class="ex-tag">Apollo</li>
+              <li class="ex-tag">Fetch</li>
+            </ul>
+          </li>
+
+          <li class="ex-card reveal">
+            <div class="ex-icon" aria-hidden="true">♿</div>
+            <h3 class="ex-title">Accessibility & Quality</h3>
+            <p class="ex-desc">
+              Writing semantic, WCAG-compliant code from the ground up —
+              inclusive design that benefits absolutely everyone.
+            </p>
+            <ul class="ex-tags" aria-label="WCAG 2.1, ARIA, Jest, Testing Library">
+              <li class="ex-tag">WCAG 2.1</li>
+              <li class="ex-tag">ARIA</li>
+              <li class="ex-tag">Jest</li>
+              <li class="ex-tag">Testing Library</li>
+            </ul>
+          </li>
+
+          <li class="ex-card reveal">
+            <div class="ex-icon" aria-hidden="true">🚀</div>
+            <h3 class="ex-title">Tooling & Performance</h3>
+            <p class="ex-desc">
+              Optimising builds, monitoring performance budgets, and shipping
+              code that users never have to wait for.
+            </p>
+            <ul class="ex-tags" aria-label="Vite, Webpack, Git, CI/CD, GitHub Pages">
+              <li class="ex-tag">Vite</li>
+              <li class="ex-tag">Webpack</li>
+              <li class="ex-tag">Git</li>
+              <li class="ex-tag">CI/CD</li>
+              <li class="ex-tag">GitHub Pages</li>
+            </ul>
+          </li>
+
+          <li class="ex-card reveal">
+            <div class="ex-icon" aria-hidden="true">🌱</div>
+            <h3 class="ex-title">Always Learning</h3>
+            <p class="ex-desc">
+              Staying at the edge of the web platform — exploring new browser
+              APIs, animation techniques, and emerging patterns.
+            </p>
+            <ul class="ex-tags" aria-label="Web Animations, CSS Houdini, Web Components">
+              <li class="ex-tag">Web Animations</li>
+              <li class="ex-tag">CSS Houdini</li>
+              <li class="ex-tag">Web Components</li>
+            </ul>
+          </li>
+
+        </ul>
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════
-         PROJECTS
-    ════════════════════════════════════════ -->
-    <section id="projects" aria-labelledby="projects-heading">
+
+    <!-- ──────────────────────────────────────
+         EXPERIENCE — Work history + Projects
+    ─────────────────────────────────────── -->
+    <section id="experience" aria-labelledby="experience-heading" tabindex="-1">
       <div class="container">
 
-        <div class="reveal">
-          <p class="section-label">Projects</p>
-          <h2 id="projects-heading" class="section-title">
-            Things I've <em>built</em><br>with love.
+        <div>
+          <p class="section-kicker reveal" aria-hidden="true">Experience</p>
+          <h2 id="experience-heading" class="section-title reveal">
+            Where I've <em>worked</em><br>&amp; what I've built.
           </h2>
-          <p class="section-sub">A selection of my recent work — personal, professional, and everything in between.</p>
+          <p class="section-lead reveal">
+            A combined view of my professional journey and selected
+            personal projects.
+          </p>
         </div>
 
-        <div class="projects-grid">
+        <div class="exp-layout">
 
-          <article class="project-card reveal">
-            <div class="project-thumb" style="background: linear-gradient(135deg, #182e20, #24402c);">
-              <span style="position:relative;z-index:1;">🌿</span>
-            </div>
-            <div class="project-body">
-              <h3 class="project-name">Project Evergreen</h3>
-              <p class="project-desc">A React dashboard for tracking garden data — charts, reminders, and a delightful UI focused on responsive layouts and data visualization.</p>
-              <div class="project-stack">
-                <span class="project-tech">React</span>
-                <span class="project-tech">TypeScript</span>
-                <span class="project-tech">GraphQL</span>
-                <span class="project-tech">CSS Modules</span>
-              </div>
-              <div class="project-links">
-                <a href="#" class="project-link" aria-label="Live demo of Project Evergreen">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-                  Live demo
-                </a>
-                <a href="#" class="project-link" aria-label="GitHub for Project Evergreen">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-                  GitHub
-                </a>
-              </div>
-            </div>
-          </article>
+          <!-- ── Work timeline ── -->
+          <div>
+            <h3 class="col-header work">Work History</h3>
+            <ol class="timeline" aria-label="Work history timeline">
 
-          <article class="project-card reveal">
-            <div class="project-thumb" style="background: linear-gradient(135deg, #0e2040, #163050);">
-              <span style="position:relative;z-index:1;">🌊</span>
-            </div>
-            <div class="project-body">
-              <h3 class="project-name">Tide</h3>
-              <p class="project-desc">An accessible component library for design systems. WCAG-compliant, keyboard-navigable, with composable APIs that feel natural to use.</p>
-              <div class="project-stack">
-                <span class="project-tech">React</span>
-                <span class="project-tech">TypeScript</span>
-                <span class="project-tech">Storybook</span>
-                <span class="project-tech">Jest</span>
-              </div>
-              <div class="project-links">
-                <a href="#" class="project-link">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-                  Live demo
-                </a>
-                <a href="#" class="project-link">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-                  GitHub
-                </a>
-              </div>
-            </div>
-          </article>
+              <li class="t-item reveal">
+                <p class="t-date">
+                  <time datetime="2022">2022</time> — Present
+                </p>
+                <h4 class="t-role">Senior Frontend Engineer</h4>
+                <p class="t-company">Your Current Company · San Francisco, CA</p>
+                <p class="t-desc">
+                  Leading frontend architecture for a B2B SaaS platform serving
+                  50k+ users. Rebuilt the core dashboard from scratch — improving
+                  Lighthouse score from 58 to 97, reducing bundle size by 42%, and
+                  establishing the component library used across all product teams.
+                </p>
+                <ul class="t-stack" aria-label="Technologies used">
+                  <li class="t-tech">React</li>
+                  <li class="t-tech">TypeScript</li>
+                  <li class="t-tech">GraphQL</li>
+                  <li class="t-tech">Storybook</li>
+                </ul>
+              </li>
 
-          <article class="project-card reveal">
-            <div class="project-thumb" style="background: linear-gradient(135deg, #2c1a0c, #3e2612);">
-              <span style="position:relative;z-index:1;">🏺</span>
-            </div>
-            <div class="project-body">
-              <h3 class="project-name">Flow State</h3>
-              <p class="project-desc">A minimalist productivity app in vanilla JS. Zero dependencies, full PWA support, offline-first. Lighthouse score: 100.</p>
-              <div class="project-stack">
-                <span class="project-tech">JavaScript</span>
-                <span class="project-tech">CSS</span>
-                <span class="project-tech">HTML</span>
-                <span class="project-tech">PWA</span>
-              </div>
-              <div class="project-links">
-                <a href="#" class="project-link">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-                  Live demo
-                </a>
-                <a href="#" class="project-link">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-                  GitHub
-                </a>
-              </div>
-            </div>
-          </article>
+              <li class="t-item reveal">
+                <p class="t-date">
+                  <time datetime="2020">2020</time> — <time datetime="2022">2022</time>
+                </p>
+                <h4 class="t-role">Frontend Engineer</h4>
+                <p class="t-company">Previous Company · Remote</p>
+                <p class="t-desc">
+                  Shipped accessible, responsive UI features across a
+                  consumer-facing product with 200k+ MAU. Introduced automated
+                  a11y testing via axe-core, cutting accessibility bug reports by 60%.
+                </p>
+                <ul class="t-stack" aria-label="Technologies used">
+                  <li class="t-tech">React</li>
+                  <li class="t-tech">JavaScript</li>
+                  <li class="t-tech">SCSS</li>
+                  <li class="t-tech">REST APIs</li>
+                </ul>
+              </li>
 
-        </div>
+              <li class="t-item reveal">
+                <p class="t-date">
+                  <time datetime="2019">2019</time> — <time datetime="2020">2020</time>
+                </p>
+                <h4 class="t-role">Junior Frontend Developer</h4>
+                <p class="t-company">Agency Name · San Diego, CA</p>
+                <p class="t-desc">
+                  Built and maintained marketing sites and web apps for clients
+                  across e-commerce, healthcare, and fintech. First engineering
+                  role — learned fast, shipped faster.
+                </p>
+                <ul class="t-stack" aria-label="Technologies used">
+                  <li class="t-tech">JavaScript</li>
+                  <li class="t-tech">HTML</li>
+                  <li class="t-tech">CSS</li>
+                  <li class="t-tech">Figma</li>
+                </ul>
+              </li>
+
+            </ol>
+          </div>
+
+          <!-- ── Selected projects ── -->
+          <div>
+            <h3 class="col-header proj">Selected Projects</h3>
+
+            <article class="proj-card reveal" aria-label="Tide project">
+              <div class="proj-thumb" style="background: linear-gradient(135deg, #0c2044, #183460);" aria-hidden="true">
+                <span>🌊</span>
+              </div>
+              <div class="proj-body">
+                <h4 class="proj-name">Tide</h4>
+                <p class="proj-desc">
+                  An accessible component library for design systems.
+                  WCAG-compliant, keyboard-navigable, with composable APIs
+                  that feel natural to use.
+                </p>
+                <ul class="proj-stack" aria-label="Technologies: React, TypeScript, Storybook, Jest">
+                  <li class="proj-tech">React</li>
+                  <li class="proj-tech">TypeScript</li>
+                  <li class="proj-tech">Storybook</li>
+                  <li class="proj-tech">Jest</li>
+                </ul>
+                <nav class="proj-links" aria-label="Tide project links">
+                  <a href="#" class="proj-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+                    Live demo
+                  </a>
+                  <a href="https://github.com/kiralb" class="proj-link" target="_blank" rel="noopener noreferrer" aria-label="Tide on GitHub (opens in new tab)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                    GitHub
+                  </a>
+                </nav>
+              </div>
+            </article>
+
+            <article class="proj-card reveal" aria-label="Flow State project">
+              <div class="proj-thumb" style="background: linear-gradient(135deg, #2c1a0c, #402614);" aria-hidden="true">
+                <span>🏺</span>
+              </div>
+              <div class="proj-body">
+                <h4 class="proj-name">Flow State</h4>
+                <p class="proj-desc">
+                  A minimalist productivity app in vanilla JS. Zero dependencies,
+                  full PWA support, offline-first. Lighthouse score: 100.
+                </p>
+                <ul class="proj-stack" aria-label="Technologies: JavaScript, CSS, HTML, PWA">
+                  <li class="proj-tech">JavaScript</li>
+                  <li class="proj-tech">CSS</li>
+                  <li class="proj-tech">HTML</li>
+                  <li class="proj-tech">PWA</li>
+                </ul>
+                <nav class="proj-links" aria-label="Flow State project links">
+                  <a href="#" class="proj-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+                    Live demo
+                  </a>
+                  <a href="https://github.com/kiralb" class="proj-link" target="_blank" rel="noopener noreferrer" aria-label="Flow State on GitHub (opens in new tab)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                    GitHub
+                  </a>
+                </nav>
+              </div>
+            </article>
+
+          </div><!-- /projects col -->
+        </div><!-- /exp-layout -->
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════
+
+    <!-- ──────────────────────────────────────
          CONTACT
-    ════════════════════════════════════════ -->
-    <section id="contact" aria-labelledby="contact-heading">
+    ─────────────────────────────────────── -->
+    <section id="contact" aria-labelledby="contact-heading" tabindex="-1">
       <div class="container">
 
-        <div class="reveal">
-          <p class="section-label">Contact</p>
-          <h2 id="contact-heading" class="section-title">
-            Let's build something<br><em>beautiful</em> together!
-          </h2>
-        </div>
+        <p class="section-kicker reveal" aria-hidden="true">Contact</p>
+        <h2 id="contact-heading" class="section-title reveal">
+          Let's build something<br><em>beautiful</em> together!
+        </h2>
 
-        <div class="contact-layout">
+        <div class="contact-grid">
 
-          <!-- Left: intro + availability card -->
-          <div class="contact-left reveal">
-            <p>Whether you have a project in mind, want to collaborate, or just want to say hi — I'd love to hear from you! My inbox is always open ✨</p>
+          <!-- Availability card -->
+          <div class="reveal">
+            <p class="contact-lead">
+              Whether you have a project in mind, want to collaborate, or just
+              want to say hi — I'd love to hear from you! My inbox is always open ✨
+            </p>
             <div class="avail-card">
-              <p class="avail-header">
+              <div class="avail-badge" aria-label="Status: available for work">
                 <span class="pulse-dot" aria-hidden="true"></span>
                 Available for work
-              </p>
+              </div>
               <h3>Currently open to new opportunities.</h3>
-              <p>Looking for frontend and fullstack roles where I can build cool products with a team that cares about people. Currently based in the San Francisco Bay Area — open to remote and hybrid throughout California.</p>
-              <a href="src/assets/Kira_Bender_Resume.pdf" download class="btn-cv" style="width:fit-content;" aria-label="Download CV as PDF">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="width:13px;height:13px;">
+              <p>
+                Looking for frontend and fullstack roles where I can build cool
+                products with a team that cares about people. Currently based in
+                the San Francisco Bay Area — open to remote and hybrid throughout
+                California.
+              </p>
+              <a
+                href="src/assets/Kira_Bender_Resume.pdf"
+                download
+                class="btn btn-amber"
+                style="width: fit-content;"
+                aria-label="Download Kira Bender's resume as PDF"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="width:16px;height:16px;">
                   <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
                 </svg>
                 Download CV
@@ -339,46 +500,46 @@
             </div>
           </div>
 
-          <!-- Right: contact links in normal document flow -->
-          <nav class="contact-panel reveal" aria-label="Contact links">
-            <div class="contact-panel-header">
+          <!-- Contact links panel — always in static flow -->
+          <nav class="contact-panel reveal" aria-label="Ways to contact Kira">
+            <div class="contact-panel-head">
               <h3>Reach out</h3>
             </div>
 
-            <a href="mailto:kiralbender@gmail.com" class="contact-row">
-              <span class="cr-icon" aria-hidden="true">✉️</span>
-              <span class="cr-text">
-                <span class="cr-label">Email</span>
-                <span class="cr-value">kiralbender@gmail.com</span>
+            <a href="mailto:kiralbender@gmail.com" class="c-row">
+              <span class="c-icon" aria-hidden="true">✉️</span>
+              <span class="c-text">
+                <span class="c-label">Email</span>
+                <span class="c-value">kiralbender@gmail.com</span>
               </span>
-              <span class="cr-arrow" aria-hidden="true">→</span>
+              <span class="c-arrow" aria-hidden="true">→</span>
             </a>
 
-            <a href="tel:+18583869913" class="contact-row">
-              <span class="cr-icon" aria-hidden="true">📱</span>
-              <span class="cr-text">
-                <span class="cr-label">Phone</span>
-                <span class="cr-value">+1 (858) 386-9913</span>
+            <a href="tel:+18583869913" class="c-row">
+              <span class="c-icon" aria-hidden="true">📱</span>
+              <span class="c-text">
+                <span class="c-label">Phone</span>
+                <span class="c-value">+1 (858) 386-9913</span>
               </span>
-              <span class="cr-arrow" aria-hidden="true">→</span>
+              <span class="c-arrow" aria-hidden="true">→</span>
             </a>
 
-            <a href="https://github.com/kiralb" target="_blank" rel="noopener noreferrer" class="contact-row">
-              <span class="cr-icon" aria-hidden="true">🐙</span>
-              <span class="cr-text">
-                <span class="cr-label">GitHub</span>
-                <span class="cr-value">github.com/kiralb</span>
+            <a href="https://github.com/kiralb" target="_blank" rel="noopener noreferrer" class="c-row" aria-label="GitHub profile (opens in new tab)">
+              <span class="c-icon" aria-hidden="true">🐙</span>
+              <span class="c-text">
+                <span class="c-label">GitHub</span>
+                <span class="c-value">github.com/kiralb</span>
               </span>
-              <span class="cr-arrow" aria-hidden="true">→</span>
+              <span class="c-arrow" aria-hidden="true">→</span>
             </a>
 
-            <a href="https://linkedin.com/in/kirabender" target="_blank" rel="noopener noreferrer" class="contact-row">
-              <span class="cr-icon" aria-hidden="true">💼</span>
-              <span class="cr-text">
-                <span class="cr-label">LinkedIn</span>
-                <span class="cr-value">linkedin.com/in/kirabender</span>
+            <a href="https://linkedin.com/in/kirabender" target="_blank" rel="noopener noreferrer" class="c-row" aria-label="LinkedIn profile (opens in new tab)">
+              <span class="c-icon" aria-hidden="true">💼</span>
+              <span class="c-text">
+                <span class="c-label">LinkedIn</span>
+                <span class="c-value">linkedin.com/in/kirabender</span>
               </span>
-              <span class="cr-arrow" aria-hidden="true">→</span>
+              <span class="c-arrow" aria-hidden="true">→</span>
             </a>
 
           </nav>
@@ -388,12 +549,16 @@
 
   </main>
 
-  <!-- ─── FOOTER ─── -->
+  <!-- ══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
   <footer role="contentinfo">
     <div class="container footer-inner">
-      <p class="footer-logo">Kira Bender</p>
+      <p class="footer-logo" aria-label="Kira Bender">Kira Bender</p>
       <span class="footer-miffy" aria-hidden="true">🐰</span>
-      <p class="footer-copy">© 2026 ✦ Designed &amp; built with care</p>
+      <p class="footer-copy">
+        <small>© 2026 ✦ Designed &amp; built with care</small>
+      </p>
     </div>
   </footer>
 

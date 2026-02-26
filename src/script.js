@@ -1,319 +1,455 @@
 /* ═══════════════════════════════════════════════════════
-   SUNSET CANVAS — animated sky, drifting clouds,
-   ocean water with rolling waves + sun-glitter
+   Kira Bender — "Golden Hour at Sea"  script.js
+   1. Page loader
+   2. Sunset canvas (animated clouds + waves + glitter)
+   3. Nav (scroll, mobile, active-section highlight)
+   4. Scroll reveal
+   5. Accessibility (skip link, focus management, ARIA)
 ════════════════════════════════════════════════════════ */
-(function initSunsetCanvas() {
+
+/* ─────────────────────────────────────
+   1. PAGE LOADER
+───────────────────────────────────── */
+(function () {
+  const loader = document.getElementById('page-loader');
+  if (!loader) return;
+
+  function dismiss() {
+    loader.classList.add('fade-out');
+    loader.addEventListener('transitionend', () => {
+      loader.remove();
+      document.body.style.overflow = '';
+    }, { once: true });
+  }
+
+  // Prevent scroll while loading
+  document.body.style.overflow = 'hidden';
+
+  if (document.readyState === 'complete') {
+    setTimeout(dismiss, 1800);
+  } else {
+    window.addEventListener('load', () => setTimeout(dismiss, 1800), { once: true });
+  }
+})();
+
+
+/* ─────────────────────────────────────
+   2. SUNSET CANVAS
+   Full animated scene:
+   · Vivid gradient sky (deep navy → amber horizon)
+   · Partially-set sun with multi-layer halo
+   · Clouds: drift horizontally, gentle vertical sway
+   · Ocean: gradient fill + multiple animated wave lines
+   · Sun reflection: wobbly column
+   · Glitter sparks: twinkling cross-shaped lights
+───────────────────────────────────── */
+(function () {
   const canvas = document.getElementById('sunset-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
 
   let W, H, dpr, t = 0;
+  let animId;
 
-  /* ── Cloud definitions ── */
-  const clouds = Array.from({ length: 8 }, () => ({
-    x:     Math.random() * 1.5 - 0.2,   // fraction of width, can start off-screen
-    y:     0.05 + Math.random() * 0.30,  // upper 35% of canvas
-    wFrac: 0.10 + Math.random() * 0.18,  // width as fraction of canvas
-    hFrac: 0.04 + Math.random() * 0.06,
-    speed: 0.000014 + Math.random() * 0.00001,
-    alpha: 0.22 + Math.random() * 0.32,
-    puffs: Math.floor(4 + Math.random() * 4),
-    warm:  Math.random() > 0.4,          // warm (lit by sun) vs cooler high cloud
-  }));
+  /* ── Clouds ── */
+  function makeCloud() {
+    return {
+      x:      Math.random() * 1.7 - 0.3,
+      y:      0.04 + Math.random() * 0.30,
+      wF:     0.10 + Math.random() * 0.18,   // width fraction
+      hF:     0.038 + Math.random() * 0.052,  // height fraction
+      speed:  0.000011 + Math.random() * 0.000010,
+      alpha:  0.24 + Math.random() * 0.36,
+      puffs:  4 + Math.floor(Math.random() * 5),
+      warm:   Math.random() > 0.38,
+      phase:  Math.random() * Math.PI * 2,
+    };
+  }
+  const clouds = Array.from({ length: 11 }, makeCloud);
 
-  /* ── Glitter sparks on the water surface ── */
-  const SPARK_COUNT = 90;
-  const sparks = Array.from({ length: SPARK_COUNT }, () => ({
-    xFrac:   0,   // set in resize
-    yFrac:   0,
-    phase:   Math.random() * Math.PI * 2,
-    freq:    0.5  + Math.random() * 1.1,
-    amp:     0.45 + Math.random() * 0.75,
-    size:    0.9  + Math.random() * 2.2,
-    spread:  (Math.random() - 0.5) * 0.24,  // lateral spread around sun column
+  /* ── Glitter sparks ── */
+  const SPARK_N = 110;
+  const sparks  = Array.from({ length: SPARK_N }, () => ({
+    xF:    0,
+    yF:    0.51 + Math.random() * 0.32,
+    ph:    Math.random() * Math.PI * 2,
+    freq:  0.45 + Math.random() * 1.1,
+    amp:   0.38 + Math.random() * 0.74,
+    sz:    0.7  + Math.random() * 2.5,
+    spd:   (Math.random() - 0.5) * 0.28,  // lateral spread around centre
   }));
 
   function resize() {
     dpr = window.devicePixelRatio || 1;
-    W = canvas.offsetWidth;
-    H = canvas.offsetHeight;
+    W   = canvas.offsetWidth;
+    H   = canvas.offsetHeight;
     canvas.width  = W * dpr;
     canvas.height = H * dpr;
     ctx.scale(dpr, dpr);
-
-    // Sun sits at ~62% x, horizon at ~50% y
-    sparks.forEach(s => {
-      s.xFrac = 0.62 + s.spread;
-      // y is in water zone: 51%–82%
-      s.yFrac = 0.51 + Math.random() * 0.31;
-    });
+    // Sun is centred horizontally
+    sparks.forEach(s => { s.xF = 0.50 + s.spd; });
   }
 
-  /* ──────────── Draw helpers ──────────── */
-
+  /* ── Sky ── */
   function drawSky() {
-    const hy = H * 0.50; // horizon y
-    const grad = ctx.createLinearGradient(0, 0, 0, hy);
-    grad.addColorStop(0,    '#09152a');  // deep night at zenith
-    grad.addColorStop(0.30, '#0c2248');  // midnight blue
-    grad.addColorStop(0.58, '#183a70');  // twilight blue
-    grad.addColorStop(0.76, '#7c3a1a');  // burnt orange band
-    grad.addColorStop(0.89, '#c85c28');  // deep coral
-    grad.addColorStop(1,    '#e88838');  // warm amber at horizon
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, W, hy + 2);
+    const g = ctx.createLinearGradient(0, 0, 0, H * 0.51);
+    g.addColorStop(0,    '#070d1a');
+    g.addColorStop(0.18, '#0a1c44');
+    g.addColorStop(0.46, '#102e74');
+    g.addColorStop(0.68, '#7e340e');
+    g.addColorStop(0.83, '#d85e1c');
+    g.addColorStop(0.92, '#f27a1a');
+    g.addColorStop(1,    '#f8a818');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H * 0.51 + 2);
   }
 
+  /* ── Sun ── */
   function drawSun() {
-    const sx = W * 0.62;
-    const sy = H * 0.44;
-    const sr = H * 0.058;
+    const sx = W * 0.50;
+    const sy = H * 0.43;
+    const sr = H * 0.065;
 
     // Wide atmospheric halo
-    const halo = ctx.createRadialGradient(sx, sy, sr * 0.6, sx, sy, sr * 6);
-    halo.addColorStop(0,    'rgba(255,210,80,.24)');
-    halo.addColorStop(0.25, 'rgba(255,145,55,.12)');
-    halo.addColorStop(0.6,  'rgba(255,100,30,.05)');
-    halo.addColorStop(1,    'rgba(255,80,20,0)');
-    ctx.fillStyle = halo;
-    ctx.beginPath();
-    ctx.arc(sx, sy, sr * 6, 0, Math.PI * 2);
-    ctx.fill();
+    let h = ctx.createRadialGradient(sx, sy, sr * 0.5, sx, sy, sr * 7.5);
+    h.addColorStop(0,    'rgba(255,220,80,.28)');
+    h.addColorStop(0.20, 'rgba(255,160,50,.14)');
+    h.addColorStop(0.55, 'rgba(255,110,30,.06)');
+    h.addColorStop(1,    'rgba(255,80,10,0)');
+    ctx.fillStyle = h;
+    ctx.beginPath(); ctx.arc(sx, sy, sr * 7.5, 0, Math.PI * 2); ctx.fill();
+
+    // Inner warm glow ring
+    h = ctx.createRadialGradient(sx, sy, sr, sx, sy, sr * 3.2);
+    h.addColorStop(0, 'rgba(255,240,130,.2)');
+    h.addColorStop(1, 'rgba(255,130,40,0)');
+    ctx.fillStyle = h;
+    ctx.beginPath(); ctx.arc(sx, sy, sr * 3.2, 0, Math.PI * 2); ctx.fill();
 
     // Sun disc
-    const disc = ctx.createRadialGradient(sx, sy, 0, sx, sy, sr);
-    disc.addColorStop(0,   '#fffce0');
-    disc.addColorStop(0.25,'#ffe898');
-    disc.addColorStop(0.65,'#ffb040');
-    disc.addColorStop(1,   '#e87228');
-    ctx.fillStyle = disc;
-    ctx.beginPath();
-    ctx.arc(sx, sy, sr, 0, Math.PI * 2);
-    ctx.fill();
+    const d = ctx.createRadialGradient(sx, sy, 0, sx, sy, sr);
+    d.addColorStop(0,    '#fffee0');
+    d.addColorStop(0.22, '#ffe870');
+    d.addColorStop(0.62, '#ffb838');
+    d.addColorStop(1,    '#e87820');
+    ctx.fillStyle = d;
+    ctx.beginPath(); ctx.arc(sx, sy, sr, 0, Math.PI * 2); ctx.fill();
 
-    // Clip bottom half of sun below horizon so it looks like it's setting
-    ctx.clearRect(0, H * 0.495, W, H);
+    // Clip below horizon so sun appears to be setting
+    ctx.clearRect(0, H * 0.497, W, H);
   }
 
+  /* ── Horizon glow band ── */
+  function drawHorizonGlow() {
+    const g = ctx.createLinearGradient(0, H * 0.42, 0, H * 0.60);
+    g.addColorStop(0,    'rgba(255,175,55,0)');
+    g.addColorStop(0.32, 'rgba(255,145,38,.24)');
+    g.addColorStop(0.55, 'rgba(255,105,22,.2)');
+    g.addColorStop(1,    'rgba(200,60,10,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, H * 0.42, W, H * 0.18);
+  }
+
+  /* ── Single cloud ── */
   function drawCloud(c) {
-    const cx = c.x * W;
-    const cy = c.y * H;
-    const cw = c.wFrac * W;
-    const ch = c.hFrac * H;
+    const cx   = c.x * W;
+    const sway = Math.sin(c.phase + t * 0.38) * H * 0.007;
+    const cy   = c.y * H + sway;
+    const cw   = c.wF * W;
+    const ch   = c.hF * H;
 
     ctx.save();
     ctx.globalAlpha = c.alpha;
-    ctx.filter = 'blur(2.5px)';
+    ctx.filter = 'blur(3px)';
 
-    const grad = ctx.createLinearGradient(cx, cy - ch, cx, cy + ch * 0.9);
+    const g = ctx.createLinearGradient(cx, cy - ch, cx, cy + ch);
     if (c.warm) {
-      grad.addColorStop(0, 'rgba(255,220,160,.95)');
-      grad.addColorStop(0.5,'rgba(230,175,130,.75)');
-      grad.addColorStop(1, 'rgba(160,100,120,.38)');
+      g.addColorStop(0,   'rgba(255,232,162,.97)');
+      g.addColorStop(0.5, 'rgba(242,180,118,.8)');
+      g.addColorStop(1,   'rgba(160,90,100,.4)');
     } else {
-      grad.addColorStop(0, 'rgba(230,210,255,.8)');
-      grad.addColorStop(0.5,'rgba(180,155,190,.6)');
-      grad.addColorStop(1, 'rgba(100,80,130,.3)');
+      g.addColorStop(0,   'rgba(212,198,255,.84)');
+      g.addColorStop(0.5, 'rgba(166,148,196,.62)');
+      g.addColorStop(1,   'rgba(90,70,135,.3)');
     }
-    ctx.fillStyle = grad;
+    ctx.fillStyle = g;
 
     for (let p = 0; p < c.puffs; p++) {
       const frac = c.puffs > 1 ? p / (c.puffs - 1) : 0.5;
-      const px = cx + (frac - 0.5) * cw;
-      const py = cy + Math.sin(p * 1.3) * ch * 0.4;
-      const pr = ch * (0.5 + Math.sin(p * 0.85) * 0.25);
+      const px   = cx + (frac - 0.5) * cw;
+      const py   = cy + Math.sin(p * 1.3) * ch * 0.42;
+      const pr   = ch * (0.52 + Math.sin(p * 0.85) * 0.24);
       ctx.beginPath();
-      ctx.ellipse(px, py, pr * 1.55, pr, 0, 0, Math.PI * 2);
+      ctx.ellipse(px, py, pr * 1.6, pr, 0, 0, Math.PI * 2);
       ctx.fill();
     }
     ctx.filter = 'none';
     ctx.restore();
   }
 
-  function drawHorizonGlow() {
-    const gy = H * 0.44;
-    const glow = ctx.createLinearGradient(0, gy, 0, H * 0.56);
-    glow.addColorStop(0,    'rgba(255,170,60,0)');
-    glow.addColorStop(0.38, 'rgba(255,130,40,.2)');
-    glow.addColorStop(0.62, 'rgba(255,100,28,.15)');
-    glow.addColorStop(1,    'rgba(200,70,15,0)');
-    ctx.fillStyle = glow;
-    ctx.fillRect(0, gy, W, H * 0.12);
-  }
-
+  /* ── Ocean fill + animated wave lines ── */
   function drawOcean() {
-    const wy = H * 0.495;
-    const wg = ctx.createLinearGradient(0, wy, 0, H);
-    wg.addColorStop(0,    '#cc6418');
-    wg.addColorStop(0.07, '#7a3c14');
-    wg.addColorStop(0.20, '#2a3068');
-    wg.addColorStop(0.48, '#0d1e48');
-    wg.addColorStop(1,    '#060e20');
-    ctx.fillStyle = wg;
-    ctx.fillRect(0, wy, W, H - wy);
+    const oy = H * 0.497;
 
-    // Rolling wave lines across the surface
-    const WAVE_LINES = 16;
-    for (let i = 0; i < WAVE_LINES; i++) {
-      const wy2 = H * (0.515 + i * 0.031);
-      const alpha = Math.max(0, 0.20 - i * 0.011);
-      const isWarm = i < 4;
+    // Ocean gradient fill
+    const g = ctx.createLinearGradient(0, oy, 0, H);
+    g.addColorStop(0,    '#cc6010');
+    g.addColorStop(0.06, '#7c3c08');
+    g.addColorStop(0.18, '#1e3a7c');
+    g.addColorStop(0.40, '#0c2268');
+    g.addColorStop(0.70, '#081845');
+    g.addColorStop(1,    '#040a1e');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, oy, W, H - oy);
+
+    /* Wave lines
+       Each entry: [yFraction, baseAlpha, strokeColor, timeFreq, amp1, amp2, phaseOff, lineWidth]
+       The top few are warm (lit by sunset), lower ones cool blue.
+    */
+    const WAVES = [
+      [0.502, .20, '#ec9240', 0.95, 3.4, 1.9, 0.0, 1.1],
+      [0.516, .16, '#e48030', 0.82, 3.0, 1.7, 0.9, 0.9],
+      [0.530, .13, '#ca6a1c', 0.70, 2.6, 1.5, 1.8, 0.8],
+      [0.545, .10, '#1e3e7c', 0.60, 2.9, 1.7, 2.4, 0.8],
+      [0.561, .09, '#1e4486', 0.52, 3.2, 1.9, 3.1, 0.7],
+      [0.579, .08, '#224290', 0.45, 2.8, 1.7, 0.7, 0.7],
+      [0.598, .07, '#264a98', 0.39, 2.4, 1.5, 1.5, 0.6],
+      [0.618, .06, '#2850a0', 0.34, 2.0, 1.3, 2.2, 0.6],
+      [0.640, .05, '#2c58a8', 0.29, 1.6, 1.1, 2.9, 0.5],
+      [0.665, .04, '#3060b0', 0.25, 1.3, 1.0, 1.3, 0.5],
+      [0.692, .03, '#3468b8', 0.21, 1.0, 0.8, 0.5, 0.4],
+      [0.724, .02, '#3870c0', 0.18, 0.7, 0.6, 1.9, 0.4],
+    ];
+
+    WAVES.forEach(([yF, alpha, color, freq, a1, a2, ph, lw]) => {
+      const wy = H * yF;
       ctx.save();
       ctx.globalAlpha = alpha;
-      ctx.strokeStyle = isWarm ? '#e09050' : '#2a5888';
-      ctx.lineWidth = 0.7 + (i < 3 ? 0.3 : 0);
+      ctx.strokeStyle = color;
+      ctx.lineWidth   = lw;
       ctx.beginPath();
       for (let x = 0; x <= W; x += 2) {
-        const y =
-          wy2 +
-          Math.sin(x * 0.013 + t * 0.85 + i * 0.55) * 2.8 +
-          Math.sin(x * 0.022 + t * 0.52 + i * 1.30) * 1.6 +
-          Math.cos(x * 0.007 + t * 0.30 + i * 0.80) * 1.0;
+        const y = wy
+          + Math.sin(x * 0.014 + t * freq       + ph          ) * a1
+          + Math.sin(x * 0.024 + t * freq * 0.6 + ph * 1.3    ) * a2
+          + Math.cos(x * 0.008 + t * freq * 0.4 + ph * 0.75   ) * (a1 * 0.38);
         x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
       }
       ctx.stroke();
       ctx.restore();
-    }
+    });
   }
 
-  function drawSunReflection() {
-    // Vertical shimmer column on the water
-    const sx = W * 0.62;
-    const colW = W * 0.052;
-    const rg = ctx.createLinearGradient(sx, H * 0.495, sx, H * 0.84);
-    rg.addColorStop(0,    'rgba(255,205,75,.58)');
-    rg.addColorStop(0.18, 'rgba(255,160,55,.30)');
-    rg.addColorStop(0.45, 'rgba(200,105,35,.14)');
-    rg.addColorStop(1,    'rgba(100,55,15,0)');
+  /* ── Sun reflection column ── */
+  function drawReflection() {
+    const sx   = W * 0.50;
+    const colW = W * 0.062;
+    const rg   = ctx.createLinearGradient(sx, H * 0.497, sx, H * 0.87);
+    rg.addColorStop(0,    'rgba(255,215,72,.65)');
+    rg.addColorStop(0.16, 'rgba(255,168,52,.33)');
+    rg.addColorStop(0.42, 'rgba(210,112,30,.16)');
+    rg.addColorStop(1,    'rgba(100,55,10,0)');
     ctx.fillStyle = rg;
 
     ctx.beginPath();
-    ctx.moveTo(sx - colW, H * 0.495);
-    for (let y = H * 0.495; y < H * 0.84; y += 3) {
-      const prog   = (y - H * 0.495) / (H * 0.345);
-      const wobble = Math.sin(y * 0.075 + t * 1.3) * colW * prog * 0.55;
-      const halfW  = colW * (1 + prog * 0.85);
-      ctx.lineTo(sx - halfW + wobble, y);
+    let first = true;
+    for (let y = H * 0.497; y < H * 0.87; y += 3) {
+      const prog = (y - H * 0.497) / (H * 0.373);
+      const wob  = Math.sin(y * 0.082 + t * 1.45) * colW * prog * 0.58;
+      const hw   = colW * (1 + prog * 0.92);
+      if (first) { ctx.moveTo(sx - hw + wob, y); first = false; }
+      else ctx.lineTo(sx - hw + wob, y);
     }
-    for (let y = H * 0.84; y >= H * 0.495; y -= 3) {
-      const prog   = (y - H * 0.495) / (H * 0.345);
-      const wobble = Math.sin(y * 0.075 + t * 1.3) * colW * prog * 0.55;
-      const halfW  = colW * (1 + prog * 0.85);
-      ctx.lineTo(sx + halfW + wobble, y);
+    for (let y = H * 0.87; y >= H * 0.497; y -= 3) {
+      const prog = (y - H * 0.497) / (H * 0.373);
+      const wob  = Math.sin(y * 0.082 + t * 1.45) * colW * prog * 0.58;
+      const hw   = colW * (1 + prog * 0.92);
+      ctx.lineTo(sx + hw + wob, y);
     }
     ctx.closePath();
     ctx.fill();
   }
 
+  /* ── Glitter sparks ── */
   function drawGlitter() {
-    sparks.forEach(spark => {
-      const brightness = Math.sin(spark.phase + t * spark.freq * 2.6);
-      if (brightness < 0.05) return;
+    sparks.forEach(s => {
+      const b = Math.sin(s.ph + t * s.freq * 2.8);
+      if (b < 0.06) return;
 
-      const px = spark.xFrac * W;
-      const py = spark.yFrac * H + Math.sin(spark.phase * 2.7 + t * 0.9) * H * 0.035;
-      if (py < H * 0.495 || py > H * 0.84) return;
+      const px = s.xF * W;
+      const py = s.yF * H + Math.sin(s.ph * 2.6 + t * 0.95) * H * 0.038;
+      if (py < H * 0.497 || py > H * 0.87) return;
 
-      const alpha = brightness * spark.amp * 0.88;
-      const sz    = spark.size * (0.5 + brightness * 0.55);
-      const r     = Math.floor(200 + brightness * 55);
-      const g     = Math.floor(145 + brightness * 70);
-      const b     = Math.floor(50  + brightness * 50);
+      const alpha = b * s.amp * 0.9;
+      const sz    = s.sz * (0.44 + b * 0.6);
 
       ctx.save();
       ctx.globalAlpha = alpha;
-      ctx.strokeStyle = `rgb(${r},${g},${b})`;
-      ctx.lineWidth = sz * 0.52;
-      ctx.lineCap = 'round';
-      // Cross glint
+      ctx.strokeStyle = `rgb(255,${Math.floor(158 + b * 82)},${Math.floor(48 + b * 62)})`;
+      ctx.lineWidth = sz * 0.54;
+      ctx.lineCap   = 'round';
       ctx.beginPath();
       ctx.moveTo(px - sz, py); ctx.lineTo(px + sz, py);
-      ctx.moveTo(px, py - sz * 1.5); ctx.lineTo(px, py + sz * 1.5);
+      ctx.moveTo(px, py - sz * 1.65); ctx.lineTo(px, py + sz * 1.65);
       ctx.stroke();
-      // Soft radial glow
-      const grd = ctx.createRadialGradient(px, py, 0, px, py, sz * 2.8);
-      grd.addColorStop(0, `rgba(255,220,100,${alpha * 0.55})`);
-      grd.addColorStop(1, 'rgba(255,165,40,0)');
-      ctx.fillStyle = grd;
-      ctx.beginPath(); ctx.arc(px, py, sz * 2.8, 0, Math.PI * 2); ctx.fill();
+
+      const rg = ctx.createRadialGradient(px, py, 0, px, py, sz * 3.2);
+      rg.addColorStop(0, `rgba(255,228,100,${alpha * 0.55})`);
+      rg.addColorStop(1, 'rgba(255,170,40,0)');
+      ctx.fillStyle = rg;
+      ctx.beginPath(); ctx.arc(px, py, sz * 3.2, 0, Math.PI * 2); ctx.fill();
       ctx.restore();
     });
   }
 
-  /* ──────────── Main loop ──────────── */
+  /* ── Render loop ── */
   function frame() {
-    t += 0.008;
+    t += 0.009;
     ctx.clearRect(0, 0, W, H);
 
     drawSky();
     drawSun();
 
-    // Clouds drift left → right, wrap around
     clouds.forEach(c => {
-      c.x += c.speed;
-      if (c.x > 1.35) c.x = -0.35;
+      c.x     += c.speed;
+      c.phase += 0.0018;
+      if (c.x > 1.42) c.x = -0.42;
       drawCloud(c);
     });
 
     drawHorizonGlow();
     drawOcean();
-    drawSunReflection();
+    drawReflection();
     drawGlitter();
 
-    requestAnimationFrame(frame);
+    animId = requestAnimationFrame(frame);
   }
 
-  window.addEventListener('resize', resize, { passive: true });
+  function handleResize() { resize(); }
+  window.addEventListener('resize', handleResize, { passive: true });
   resize();
   frame();
+
+  // Pause when tab is hidden to save CPU
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { cancelAnimationFrame(animId); }
+    else { t += 0; frame(); }
+  });
 })();
 
 
-/* ═══════════════════════════════════════════════════════
-   PAGE INTERACTIONS
-════════════════════════════════════════════════════════ */
+/* ─────────────────────────────────────
+   3. NAV
+───────────────────────────────────── */
+(function () {
+  const nav     = document.getElementById('nav');
+  const btn     = document.getElementById('menu-btn');
+  const list    = document.getElementById('nav-list');
+  const links   = list ? list.querySelectorAll('a') : [];
 
-/* Nav scroll styling */
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 40);
-}, { passive: true });
+  // Scroll class
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    requestAnimationFrame(() => {
+      nav.classList.toggle('scrolled', window.scrollY > 50);
+      ticking = false;
+    });
+    ticking = true;
+  }, { passive: true });
 
-/* Mobile menu */
-const menuBtn  = document.getElementById('menu-btn');
-const navLinks = document.getElementById('nav-links');
-menuBtn.addEventListener('click', () => {
-  const open = navLinks.classList.toggle('open');
-  menuBtn.setAttribute('aria-expanded', String(open));
-});
-navLinks.querySelectorAll('a').forEach(a =>
-  a.addEventListener('click', () => {
-    navLinks.classList.remove('open');
-    menuBtn.setAttribute('aria-expanded', 'false');
-  })
-);
+  // Mobile menu open/close
+  function openMenu()  {
+    list.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    // Move focus to first link
+    if (links.length) links[0].focus();
+  }
+  function closeMenu() {
+    list.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
 
-/* Scroll reveal */
-const revealObs = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      entry.target.style.transitionDelay = (i % 4) * 0.1 + 's';
-      entry.target.classList.add('visible');
-      revealObs.unobserve(entry.target);
+  if (btn) {
+    btn.addEventListener('click', () => {
+      list.classList.contains('open') ? closeMenu() : openMenu();
+    });
+  }
+
+  links.forEach(a => a.addEventListener('click', closeMenu));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && list.classList.contains('open')) {
+      closeMenu();
+      btn.focus();
     }
   });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-/* Active nav highlight */
-const navAnchors = document.querySelectorAll('.nav-links a');
-const activeObs  = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      navAnchors.forEach(a => a.style.color = '');
-      const a = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
-      if (a) a.style.color = 'var(--amber-light)';
-    }
+  // Active section highlight via IntersectionObserver
+  const sections = document.querySelectorAll('section[id]');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      links.forEach(a => {
+        const active = a.getAttribute('href') === '#' + e.target.id;
+        a.style.color = active ? 'var(--amber-light)' : '';
+        a.setAttribute('aria-current', active ? 'page' : 'false');
+      });
+    });
+  }, { threshold: 0.45 });
+  sections.forEach(s => obs.observe(s));
+})();
+
+
+/* ─────────────────────────────────────
+   4. SCROLL REVEAL
+───────────────────────────────────── */
+(function () {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (!entry.isIntersecting) return;
+      entry.target.style.transitionDelay = `${(i % 5) * 0.08}s`;
+      entry.target.classList.add('in-view');
+      obs.unobserve(entry.target);
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+})();
+
+
+/* ─────────────────────────────────────
+   5. ACCESSIBILITY
+───────────────────────────────────── */
+(function () {
+  // Make sections programmatically focusable (for skip-nav & anchor focusing)
+  document.querySelectorAll('section[id], main').forEach(el => {
+    if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1');
   });
-}, { threshold: 0.45 });
-document.querySelectorAll('section[id]').forEach(s => activeObs.observe(s));
+
+  // Skip link: smooth-scroll + focus destination
+  const skip = document.querySelector('.skip-link');
+  if (skip) {
+    skip.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(skip.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => target.focus({ preventScroll: true }), 380);
+      }
+    });
+  }
+
+  // Anchor clicks from hero/nav → focus destination section after scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', () => {
+      const id = a.getAttribute('href').slice(1);
+      const target = id ? document.getElementById(id) : null;
+      if (target) {
+        setTimeout(() => target.focus({ preventScroll: true }), 420);
+      }
+    });
+  });
+})();
