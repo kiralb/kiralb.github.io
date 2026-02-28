@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Kira Bender — Frontend Software Engineer. Building beautiful, accessible web experiences in the San Francisco Bay Area." />
-  <title>Kira Bender — Portfolio</title>
+  <title>Kira Bender Portfolio </title>
+  <link rel="icon" href="assets/miffy_logo.png" type="image/png">
   <link rel="stylesheet" href="src/styles.css" />
 </head>
 <body>
@@ -13,17 +14,16 @@
   <a href="#main" class="skip-link">Skip to main content</a>
 
 
-  <!-- ═══════════════════════════════════════════
-       PAGE LOADER  —  rising sun · no waves
-  ════════════════════════════════════════════ -->
+  <!-- ══════════════════════════════════════════
+       PAGE LOADER  —  sun rises, then fades away
+  ═══════════════════════════════════════════ -->
   <div id="page-loader" role="status" aria-label="Page loading">
     <div class="loader-sun" aria-hidden="true"></div>
-    <p class="loader-tagline" aria-live="polite"></p>
   </div>
 
-  <!-- ═══════════════════════════════════════════
+  <!-- ══════════════════════════════════════════
        NAV  —  name left · links right
-  ════════════════════════════════════════════ -->
+  ═══════════════════════════════════════════ -->
   <nav id="nav" aria-label="Main navigation">
     <div class="container nav-inner">
 
@@ -50,46 +50,48 @@
   </nav>
 
 
-  <!-- ═══════════════════════════════════════════
+  <!-- ══════════════════════════════════════════
        MAIN CONTENT
-  ════════════════════════════════════════════ -->
+  ═══════════════════════════════════════════ -->
   <main id="main" tabindex="-1">
 
 
-    <!-- ─────────────────────────────────────────
+    <!-- ──────────────────────────────────────
          HERO
-    ────────────────────────────────────────── -->
+         .hero-photo is position:absolute inside this section.
+         overflow:hidden on #hero clips the parallax travel.
+         .hero-mask is a flat semi-transparent overlay above the photo.
+         JS translates .hero-photo upward on scroll for parallax.
+    ─────────────────────────────────────── -->
     <section id="hero" aria-labelledby="hero-heading">
 
-      <!-- Background photo -->
+      <!-- Parallax photo layer (JS sets transform: translateY on scroll) -->
       <div
         class="hero-photo"
         role="img"
         aria-label="Golden sunset over the ocean with warm amber water reflections"
       ></div>
 
-      <!-- Legibility overlays (decorative) -->
-      <div class="hero-blanket"    aria-hidden="true"></div>
+      <!-- Flat dark mask — covers the full hero, ensures all text is readable -->
+      <div class="hero-mask" aria-hidden="true"></div>
 
-      <!-- <div class="hero-vignette"    aria-hidden="true"></div> -->
-      <!-- <div class="hero-text-shield" aria-hidden="true"></div> -->
-      <!-- Gradient blend into About section -->
-      <!-- <div class="hero-blend"       aria-hidden="true"></div> -->
-
-      <!-- Centred content -->
+      <!-- Hero text — z-index 2, above photo (0) and mask (1) -->
       <div class="container">
         <div class="hero-content">
+
           <p class="hero-eyebrow" aria-hidden="true">Frontend Software Engineer</p>
           <h1 id="hero-heading" class="hero-name">
             Crafting interfaces <em>you can feel.</em>
           </h1>
           <p class="hero-desc">
-            I like to build accessible, performant websites and applications that are as beautiful as they are functional.
+            I build accessible, performant websites and applications
+            that are as beautiful as they are functional.
           </p>
           <div class="hero-ctas" role="group" aria-label="Primary actions">
             <a href="#experience" class="btn btn-fire">View my work ↓</a>
             <a href="#contact"    class="btn btn-outline">Get in touch</a>
           </div>
+
         </div>
       </div>
 
@@ -101,29 +103,28 @@
     </section>
 
 
-    <!-- ─────────────────────────────────────────
+    <!-- ──────────────────────────────────────
          ABOUT
-         Glitter canvas injected by JS as first child.
-    ────────────────────────────────────────── -->
+         JS injects .section-fade (first child) then
+         .section-glitter (second child) before .section-body.
+    ─────────────────────────────────────── -->
     <section id="about" aria-labelledby="about-heading" tabindex="-1">
       <div class="container section-body">
         <div class="about-grid">
 
-          <!-- Photo frame -->
+          <!-- Photo -->
           <div class="about-photo-wrap reveal">
-            <!--
-              Replace emoji with your photo:
-              <img
-                src="src/assets/kira.jpg"
-                alt="Kira Bender smiling at the beach"
-                style="width:100%;height:100%;object-fit:cover;"
-              />
-            -->
             <div
               class="about-photo"
               role="img"
               aria-label="Kira Bender — photo coming soon"
-            >🪴</div>
+            >
+                        <img
+                src="src/assets/me_grad.jpg"
+                alt="Kira Bender smiling at the beach"
+                style="width:100%;height:100%;object-fit:cover;"
+              />
+          </div>
           </div>
 
           <!-- Bio -->
@@ -143,31 +144,31 @@
             <p class="reveal">
               I care deeply about <strong>accessibility and performance</strong>,
               because the best interfaces work beautifully for everyone. Away from
-              the keyboard you might find me exploring a new country, devouring
-              something savoury or not-too-sweet, throwing on my pottery wheel,
-              chugging pots of tea, or surfing at my favourite beach.
+              the keyboard you might find me exploring a new country, throwing on my pottery wheel,
+              chugging pots of tea, or surfing at my favorite beach.
             </p>
 
             <ul class="interests reveal" aria-label="Personal interests">
               <li class="chip">🍵 tea</li>
+              <li class="chip">🌅 sunsets</li>              
               <li class="chip">🌊 the ocean</li>
               <li class="chip">🍜 food</li>
+              <li class="chip">🎤 karaoke</li>              
               <li class="chip">🏺 pottery</li>
               <li class="chip">🐰 miffy (nijntje)</li>
               <li class="chip">✈️ travel</li>
               <li class="chip">📖 reading</li>
-              <li class="chip">🌱 learning</li>
-              <li class="chip">🎤 karaoke</li>
+              <li class="chip">🌱 growing</li>
               <li class="chip">✨ clean code</li>
             </ul>
 
             <dl class="about-stats reveal" aria-label="Career highlights">
               <div class="stat">
-                <dt class="stat-label">Years coding</dt>
-                <dd class="stat-num">6+</dd>
+                <dt class="stat-label">years coding</dt>
+                <dd class="stat-num">7+</dd>
               </div>
               <div class="stat">
-                <dt class="stat-label">Projects done</dt>
+                <dt class="stat-label">projects</dt>
                 <dd class="stat-num">10+</dd>
               </div>
               <div class="stat">
@@ -175,7 +176,7 @@
                 <dd class="stat-num">100%</dd>
               </div>
               <div class="stat">
-                <dt class="stat-label">Cups of tea</dt>
+                <dt class="stat-label">cups of tea</dt>
                 <dd class="stat-num">∞</dd>
               </div>
             </dl>
@@ -186,9 +187,9 @@
     </section>
 
 
-    <!-- ─────────────────────────────────────────
+    <!-- ──────────────────────────────────────
          EXPERTISE
-    ────────────────────────────────────────── -->
+    ─────────────────────────────────────── -->
     <section id="expertise" aria-labelledby="expertise-heading" tabindex="-1">
       <div class="container section-body">
 
@@ -213,7 +214,7 @@
 
           <li class="ex-card reveal">
             <div class="ex-icon" aria-hidden="true">🎨</div>
-            <h3 class="ex-title">Styling & Design</h3>
+            <h3 class="ex-title">Styling &amp; Design</h3>
             <p class="ex-desc">Translating design systems into pixel-perfect, responsive, and maintainable CSS — from scratch or straight from Figma.</p>
             <ul class="ex-tags" aria-label="CSS, HTML5, SCSS, Tailwind, Figma">
               <li class="ex-tag">CSS</li>
@@ -226,7 +227,7 @@
 
           <li class="ex-card reveal">
             <div class="ex-icon" aria-hidden="true">🔗</div>
-            <h3 class="ex-title">Data & APIs</h3>
+            <h3 class="ex-title">Data &amp; APIs</h3>
             <p class="ex-desc">Integrating complex data layers with smooth, optimistic UI patterns that feel instant to every user.</p>
             <ul class="ex-tags" aria-label="GraphQL, REST APIs, Apollo, Fetch">
               <li class="ex-tag">GraphQL</li>
@@ -236,25 +237,60 @@
             </ul>
           </li>
 
+          <li class="ex-card reveal">
+            <div class="ex-icon" aria-hidden="true">♿</div>
+            <h3 class="ex-title">Accessibility &amp; Quality</h3>
+            <p class="ex-desc">Writing semantic, WCAG-compliant code from the ground up — inclusive design that benefits absolutely everyone.</p>
+            <ul class="ex-tags" aria-label="WCAG 2.1, ARIA, Jest, Testing Library">
+              <li class="ex-tag">WCAG 2.1</li>
+              <li class="ex-tag">ARIA</li>
+              <li class="ex-tag">Jest</li>
+              <li class="ex-tag">Testing Library</li>
+            </ul>
+          </li>
+
+          <li class="ex-card reveal">
+            <div class="ex-icon" aria-hidden="true">🚀</div>
+            <h3 class="ex-title">Tooling &amp; Performance</h3>
+            <p class="ex-desc">Optimising builds, monitoring performance budgets, and shipping code that users never have to wait for.</p>
+            <ul class="ex-tags" aria-label="Vite, Webpack, Git, CI/CD">
+              <li class="ex-tag">Vite</li>
+              <li class="ex-tag">Webpack</li>
+              <li class="ex-tag">Git</li>
+              <li class="ex-tag">CI/CD</li>
+            </ul>
+          </li>
+
+          <li class="ex-card reveal">
+            <div class="ex-icon" aria-hidden="true">🌱</div>
+            <h3 class="ex-title">Always Learning</h3>
+            <p class="ex-desc">Staying at the edge of the web platform — exploring new browser APIs, animation techniques, and emerging patterns.</p>
+            <ul class="ex-tags" aria-label="Web Animations, CSS Houdini, Web Components">
+              <li class="ex-tag">Web Animations</li>
+              <li class="ex-tag">CSS Houdini</li>
+              <li class="ex-tag">Web Components</li>
+            </ul>
+          </li>
+
         </ul>
       </div>
     </section>
 
 
-    <!-- ─────────────────────────────────────────
-         EXPERIENCE  —  timeline + projects
-    ────────────────────────────────────────── -->
+    <!-- ──────────────────────────────────────
+         EXPERIENCE — timeline + project cards
+    ─────────────────────────────────────── -->
     <section id="experience" aria-labelledby="experience-heading" tabindex="-1">
       <div class="container section-body">
 
         <p class="section-kicker reveal" aria-hidden="true">Experience</p>
         <h2 id="experience-heading" class="section-title reveal">
-          Where I've <em>worked</em> &amp; what I've built.
+          Where I've <em>worked</em> &amp; what I've <em>built</em>.
         </h2>
 
         <div class="exp-layout">
 
-          <!-- Work History -->
+          <!-- Work history -->
           <div>
             <h3 class="col-header work">Work History</h3>
             <ol class="timeline" aria-label="Work history timeline">
@@ -262,14 +298,12 @@
               <li class="t-item reveal">
                 <p class="t-date"><time datetime="2021">2021</time> — <time datetime="2025">2025</time></p>
                 <h4 class="t-role">Software Engineer</h4>
-                <p class="t-company">Revenue Solutions, Inc. (RSI) · Remote</p>
+                <p class="t-company">Revenue Solutions, Inc. (RSI)</p>
                 <p class="t-desc">Leading frontend architecture for a B2B SaaS platform serving 50k+ users. Rebuilt the core dashboard from scratch — improving Lighthouse score from 58 to 97, reducing bundle size by 42%, and establishing the component library used across all product teams.</p>
                 <ul class="t-stack" aria-label="Technologies used">
                   <li class="t-tech">React</li>
                   <li class="t-tech">TypeScript</li>
                   <li class="t-tech">GraphQL</li>
-                  <li class="t-tech">Next.js</li>
-                  <li class="t-tech">JSON</li>
                   <li class="t-tech">Storybook</li>
                 </ul>
               </li>
@@ -277,43 +311,43 @@
               <li class="t-item reveal">
                 <p class="t-date"><time datetime="2020">2020</time> — <time datetime="2021">2021</time></p>
                 <h4 class="t-role">Software Engineer Intern</h4>
-                <p class="t-company">Revenue Solutions, Inc. (RSI) · Remote</p>
+                <p class="t-company">Revenue Solutions, Inc. (RSI)</p>
                 <p class="t-desc">Shipped accessible, responsive UI features across a consumer-facing product with 200k+ MAU. Introduced automated a11y testing via axe-core, cutting accessibility bug reports by 60%.</p>
                 <ul class="t-stack" aria-label="Technologies used">
-                  <li class="t-tech">C#</li>
-                  <li class="t-tech">ASP.NET Web Forms</li>
-                  <li class="t-tech">Git</li>
+                  <li class="t-tech">React</li>
+                  <li class="t-tech">JavaScript</li>
+                  <li class="t-tech">SCSS</li>
+                  <li class="t-tech">REST APIs</li>
                 </ul>
               </li>
 
               <li class="t-item reveal">
                 <p class="t-date"><time datetime="2019">2019</time> — <time datetime="2020">2020</time></p>
                 <h4 class="t-role">Web Developer</h4>
-                <p class="t-company">Institute of Transportation Studies at UC Davis · Davis, CA</p>
+                <p class="t-company">UC Davis Institute of Transportation Studies (ITS-Davis)</p>
                 <p class="t-desc">Built and maintained marketing sites and web apps for clients across e-commerce, healthcare, and fintech. First engineering role — learned fast, shipped faster.</p>
                 <ul class="t-stack" aria-label="Technologies used">
                   <li class="t-tech">HTML</li>
                   <li class="t-tech">CSS</li>
-                  <li class="t-tech">CMS</li>
-                  <li class="t-tech">Wordpress</li>
+                  <li class="t-tech">Wordpress (CMS)</li>
                 </ul>
               </li>
 
             </ol>
           </div>
 
-          <!-- Selected Projects -->
+          <!-- Projects -->
           <div>
             <h3 class="col-header proj">Selected Projects</h3>
 
             <article class="proj-card reveal" aria-label="Tide — accessible component library">
-              <div class="proj-thumb" style="background: linear-gradient(135deg, #131926, #1c2e46);" aria-hidden="true">
+              <div class="proj-thumb" style="background:linear-gradient(135deg,#131926,#1c2e46);" aria-hidden="true">
                 <span>🌊</span>
               </div>
               <div class="proj-body">
-                <h4 class="proj-name">Pottery Site</h4>
+                <h4 class="proj-name">Tide</h4>
                 <p class="proj-desc">An accessible component library for design systems. WCAG-compliant, keyboard-navigable, with composable APIs that feel natural to use.</p>
-                <ul class="proj-stack" aria-label="Technologies: React, TypeScript, Storybook, Jest">
+                <ul class="proj-stack" aria-label="React, TypeScript, Storybook, Jest">
                   <li class="proj-tech">React</li>
                   <li class="proj-tech">TypeScript</li>
                   <li class="proj-tech">Storybook</li>
@@ -333,13 +367,13 @@
             </article>
 
             <article class="proj-card reveal" aria-label="Flow State — minimalist productivity app">
-              <div class="proj-thumb" style="background: linear-gradient(135deg, #2c1a0c, #40260e);" aria-hidden="true">
+              <div class="proj-thumb" style="background:linear-gradient(135deg,#2c1a0c,#40260e);" aria-hidden="true">
                 <span>🏺</span>
               </div>
               <div class="proj-body">
-                <h4 class="proj-name">Portfolio Site</h4>
+                <h4 class="proj-name">Flow State</h4>
                 <p class="proj-desc">A minimalist productivity app in vanilla JS. Zero dependencies, full PWA support, offline-first. Lighthouse score: 100.</p>
-                <ul class="proj-stack" aria-label="Technologies: JavaScript, CSS, HTML, PWA">
+                <ul class="proj-stack" aria-label="JavaScript, CSS, HTML, PWA">
                   <li class="proj-tech">JavaScript</li>
                   <li class="proj-tech">CSS</li>
                   <li class="proj-tech">HTML</li>
@@ -364,9 +398,9 @@
     </section>
 
 
-    <!-- ─────────────────────────────────────────
+    <!-- ──────────────────────────────────────
          CONTACT
-    ────────────────────────────────────────── -->
+    ─────────────────────────────────────── -->
     <section id="contact" aria-labelledby="contact-heading" tabindex="-1">
       <div class="container section-body">
 
@@ -377,7 +411,6 @@
 
         <div class="contact-grid">
 
-          <!-- Availability card -->
           <div class="reveal">
             <div class="avail-card">
               <div class="avail-badge" aria-label="Status: available for work">
@@ -387,15 +420,14 @@
               <h3>Currently open to new opportunities.</h3>
               <p>
                 Looking for frontend and fullstack roles where I can build cool
-                products with a team that cares about people. Currently based in
-                the San Francisco Bay Area — open to remote and hybrid throughout
-                California.
+                products with a team that cares about people. Based in the San
+                Francisco Bay Area — open to remote and hybrid throughout California.
               </p>
               <a
                 href="src/assets/Kira_Bender_Resume.pdf"
                 download
                 class="btn btn-amber"
-                style="width: fit-content;"
+                style="width:fit-content;"
                 aria-label="Download Kira Bender's resume as PDF"
               >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -407,7 +439,6 @@
             </div>
           </div>
 
-          <!-- Contact links -->
           <nav class="contact-panel reveal" aria-label="Ways to contact Kira">
             <div class="contact-panel-head"><h3>Reach out</h3></div>
 
@@ -458,13 +489,15 @@
   </main>
 
 
-  <!-- ═══════════════════════════════════════════
+  <!-- ══════════════════════════════════════════
        FOOTER
-  ════════════════════════════════════════════ -->
+  ═══════════════════════════════════════════ -->
   <footer role="contentinfo">
     <div class="container footer-inner">
       <p class="footer-logo">Kira Bender</p>
-      <span class="footer-miffy" aria-hidden="true">🐰</span>
+      <span class="footer-miffy" aria-hidden="true">
+        <img src="src/assets/miffy_logo.png" alt="Miffy Coding logo" style="width:32px;height:32px;">
+      </span>
       <p class="footer-copy"><small>© 2026 ✦ Designed &amp; built with care</small></p>
     </div>
   </footer>
